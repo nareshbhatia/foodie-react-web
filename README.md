@@ -9,11 +9,27 @@ technologies. This one is built on:
 
 ![Screen Shot](assets/screenshot.png)
 
-## Getting Started
+## Build
+
+-   Install dependencies
 
 ```bash
-$ yarn
-$ yarn start
+yarn
+```
+
+-   Create env.js
+
+```bash
+cp config/env.js public/env.js
+```
+
+Now edit `public/env.js` and enter your Yelp access token as the value of
+ACCESS_TOKEN
+
+-   Start the Foodie app
+
+```bash
+yarn start
 ```
 
 Now point your browser to http://localhost:3000/.
