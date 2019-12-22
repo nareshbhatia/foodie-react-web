@@ -1,27 +1,12 @@
 import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import Box from '@material-ui/core/Box';
-import Typography from '@material-ui/core/Typography';
-import gql from 'graphql-tag';
-
-const RESTAURANTS_QUERY = gql`
-    query RestaurantQuery($term: String!, $location: String!) {
-        search(term: $term, location: $location, offset: 0, limit: 50) {
-            total
-            business {
-                name
-                rating
-                review_count
-                location {
-                    address1
-                    city
-                    state
-                    country
-                }
-            }
-        }
-    }
-`;
+import { Loading } from '@nareshbhatia/react-force';
+import { RestaurantCard } from '../RestaurantCard';
+import {
+    RESTAURANTS_QUERY,
+    RestaurantQuery_search_business
+} from '../../queries';
 
 export const RestaurantList = () => {
     const { loading, error, data } = useQuery(RESTAURANTS_QUERY, {
@@ -31,16 +16,25 @@ export const RestaurantList = () => {
         }
     });
 
-    if (loading) return <p>Loading...</p>;
-    if (error) return <p>Error :(</p>;
+    const handleItemClicked = (itemId: string) => {
+        console.log('Item clicked:', itemId);
+    };
+
+    if (loading) return <Loading />;
+    if (error) throw error;
 
     return (
-        <Box p={2}>
-            {data.search.business.map(({ id, name }: any) => (
-                <div key={id}>
-                    <Typography variant="body1">{name}</Typography>
-                </div>
-            ))}
-        </Box>
+        <React.Fragment>
+            {data.search.business.map(
+                (business: RestaurantQuery_search_business, index: number) => (
+                    <Box key={business.id || index} p={1}>
+                        <RestaurantCard
+                            business={business}
+                            onItemClicked={handleItemClicked}
+                        />
+                    </Box>
+                )
+            )}
+        </React.Fragment>
     );
 };
