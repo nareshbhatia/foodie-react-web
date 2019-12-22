@@ -20,10 +20,6 @@ export interface RestaurantQuery_search_business_reviews {
      * Text excerpt of this review.
      */
     text: string | null;
-    /**
-     * Rating of this review.
-     */
-    rating: number | null;
 }
 
 export interface RestaurantQuery_search_business {
@@ -40,6 +36,10 @@ export interface RestaurantQuery_search_business {
      * A list of category title and alias pairs associated with this business.
      */
     categories: (RestaurantQuery_search_business_categories | null)[] | null;
+    /**
+     * When searching, this provides the distance of the business from the search location in meters
+     */
+    distance: number | null;
     /**
      * URLs of up to three photos of the business.
      */

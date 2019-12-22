@@ -5,17 +5,26 @@ import Typography from '@material-ui/core/Typography';
 import CardContent from '@material-ui/core/CardContent';
 import { HorizontalContainer } from '@nareshbhatia/react-force';
 import Rating from '@material-ui/lab/Rating';
+import numeral from 'numeral';
 import { RestaurantQuery_search_business } from '../../queries';
+
+const METER_TO_FEET = 3.28084;
+const METER_TO_MILES = 0.000621371;
 
 const useStyles = makeStyles((theme: Theme) => ({
     card: {
-        display: 'flex'
+        display: 'flex',
+        height: 150
     },
     content: {
+        flex: 1,
         padding: '0 16px',
         '&:last-child': {
             paddingBottom: 0
         }
+    },
+    distance: {
+        fontSize: '0.75rem'
     },
     img: {
         width: 150,
@@ -24,8 +33,17 @@ const useStyles = makeStyles((theme: Theme) => ({
         minHeight: 150,
         objectFit: 'cover'
     },
+    name: {
+        flex: 1
+    },
     rating: {
         marginRight: theme.spacing(1)
+    },
+    review: {
+        display: 'none',
+        '@media (min-width: 580px)': {
+            display: 'block'
+        }
     }
 }));
 
@@ -43,6 +61,7 @@ export const RestaurantCard = ({
         id,
         name,
         categories,
+        distance,
         photos,
         price,
         rating,
@@ -68,6 +87,18 @@ export const RestaurantCard = ({
     const separator =
         priceString.length > 0 && categoriesStr.length > 0 ? ' • ' : '';
 
+    let distanceString = '';
+    if (distance) {
+        const feet = distance * METER_TO_FEET;
+        const miles = distance * METER_TO_MILES;
+        distanceString =
+            feet < 1000
+                ? `${numeral(feet).format('0')} ft`
+                : miles < 10
+                ? `${numeral(miles).format('0.0')} mi`
+                : `${numeral(miles).format('0')} mi`;
+    }
+
     const review = reviews && reviews[0] ? reviews[0].text : '';
 
     const handleClick = () => {
@@ -79,9 +110,21 @@ export const RestaurantCard = ({
         <Card className={classes.card} onClick={handleClick}>
             <img className={classes.img} src={photo} alt={name} title={name} />
             <CardContent className={classes.content}>
-                <Typography variant="h6" component="h2">
-                    {name}
-                </Typography>
+                <HorizontalContainer flex="1" alignItems="center">
+                    <Typography
+                        className={classes.name}
+                        variant="h6"
+                        component="h2"
+                    >
+                        {name}
+                    </Typography>
+                    <Typography
+                        className={classes.distance}
+                        color="textSecondary"
+                    >
+                        {distanceString}
+                    </Typography>
+                </HorizontalContainer>
                 <HorizontalContainer>
                     <Rating
                         className={classes.rating}
@@ -104,7 +147,11 @@ export const RestaurantCard = ({
                     {separator}
                     {categoriesStr}
                 </Typography>
-                <Typography variant="body2" color="textSecondary">
+                <Typography
+                    className={classes.review}
+                    variant="body2"
+                    color="textSecondary"
+                >
                     {review}
                 </Typography>
             </CardContent>

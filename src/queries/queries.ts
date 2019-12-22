@@ -2,7 +2,13 @@ import gql from 'graphql-tag';
 
 export const RESTAURANTS_QUERY = gql`
     query RestaurantQuery($term: String!, $location: String!) {
-        search(term: $term, location: $location, offset: 0, limit: 20) {
+        search(
+            term: $term
+            location: $location
+            offset: 0
+            limit: 20
+            sort_by: "distance"
+        ) {
             total
             business {
                 id
@@ -10,6 +16,7 @@ export const RESTAURANTS_QUERY = gql`
                 categories {
                     title
                 }
+                distance
                 photos
                 price
                 rating
