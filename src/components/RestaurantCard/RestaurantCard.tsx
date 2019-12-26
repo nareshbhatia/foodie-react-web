@@ -67,12 +67,12 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 interface RestaurantCardProps {
-    business: RestaurantQuery_search_business;
+    restaurant: RestaurantQuery_search_business;
     onItemClicked: (itemId: string) => void;
 }
 
 export const RestaurantCard = ({
-    business,
+    restaurant,
     onItemClicked
 }: RestaurantCardProps) => {
     const classes = useStyles();
@@ -87,7 +87,7 @@ export const RestaurantCard = ({
         rating,
         review_count,
         reviews
-    } = business;
+    } = restaurant;
     if (!id || !name) {
         return null;
     }

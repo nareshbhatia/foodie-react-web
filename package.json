@@ -23,7 +23,7 @@
     "@material-ui/core": "^4.7.2",
     "@material-ui/icons": "^4.5.1",
     "@material-ui/lab": "^4.0.0-alpha.36",
-    "@nareshbhatia/react-force": "^1.19.2",
+    "@nareshbhatia/react-force": "^1.19.3",
     "apollo-cache-inmemory": "^1.6.5",
     "apollo-client": "^2.6.8",
     "apollo-link": "^1.2.13",

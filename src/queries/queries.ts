@@ -1,16 +1,23 @@
 import gql from 'graphql-tag';
 
 export const RESTAURANTS_QUERY = gql`
-    query RestaurantQuery($term: String!, $location: String!) {
+    query RestaurantQuery(
+        $term: String
+        $location: String!
+        $sortBy: String
+        $categories: String
+        $price: String
+        $openNow: Boolean
+    ) {
         search(
             term: $term
             location: $location
             offset: 0
             limit: 20
-            sort_by: "distance"
-            categories: "restaurants"
-            price: "1,2,3"
-            open_now: false
+            sort_by: $sortBy
+            categories: $categories
+            price: $price
+            open_now: $openNow
         ) {
             total
             business {

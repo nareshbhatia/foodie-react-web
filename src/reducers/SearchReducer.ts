@@ -4,6 +4,10 @@
 export interface SearchState {
     term: string;
     location: string;
+    sortBy: string;
+    categories: string;
+    price: string;
+    openNow: boolean;
 }
 
 // ----------------------------------------------------------------------------
