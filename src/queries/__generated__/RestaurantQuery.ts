@@ -14,6 +14,14 @@ export interface RestaurantQuery_search_business_categories {
     title: string | null;
 }
 
+export interface RestaurantQuery_search_business_location {
+    __typename: 'Location';
+    /**
+     * City of this business.
+     */
+    city: string | null;
+}
+
 export interface RestaurantQuery_search_business_reviews {
     __typename: 'Review';
     /**
@@ -40,6 +48,10 @@ export interface RestaurantQuery_search_business {
      * When searching, this provides the distance of the business from the search location in meters
      */
     distance: number | null;
+    /**
+     * The location of this business, including address, city, state, postal code and country.
+     */
+    location: RestaurantQuery_search_business_location | null;
     /**
      * URLs of up to three photos of the business.
      */

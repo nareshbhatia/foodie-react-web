@@ -20,6 +20,9 @@ export const RESTAURANTS_QUERY = gql`
                     title
                 }
                 distance
+                location {
+                    city
+                }
                 photos
                 price
                 rating

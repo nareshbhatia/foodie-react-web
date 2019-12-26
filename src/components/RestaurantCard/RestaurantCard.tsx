@@ -3,7 +3,10 @@ import Card from '@material-ui/core/Card';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import CardContent from '@material-ui/core/CardContent';
-import { HorizontalContainer } from '@nareshbhatia/react-force';
+import {
+    HorizontalContainer,
+    VerticalContainer
+} from '@nareshbhatia/react-force';
 import Rating from '@material-ui/lab/Rating';
 import numeral from 'numeral';
 import { RestaurantQuery_search_business } from '../../queries';
@@ -23,7 +26,7 @@ const useStyles = makeStyles((theme: Theme) => ({
             paddingBottom: 0
         }
     },
-    distance: {
+    smallText: {
         fontSize: '0.75rem'
     },
     img: {
@@ -39,10 +42,26 @@ const useStyles = makeStyles((theme: Theme) => ({
     rating: {
         marginRight: theme.spacing(1)
     },
+    location: {
+        display: 'none',
+        '@media (min-width: 580px)': {
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'flex-end',
+            marginTop: '4px'
+        }
+    },
+    locationBottom: {
+        display: 'block',
+        '@media (min-width: 580px)': {
+            display: 'none'
+        }
+    },
     review: {
         display: 'none',
         '@media (min-width: 580px)': {
-            display: 'block'
+            display: 'block',
+            marginTop: '6px'
         }
     }
 }));
@@ -62,6 +81,7 @@ export const RestaurantCard = ({
         name,
         categories,
         distance,
+        location,
         photos,
         price,
         rating,
@@ -110,43 +130,70 @@ export const RestaurantCard = ({
         <Card className={classes.card} onClick={handleClick}>
             <img className={classes.img} src={photo} alt={name} title={name} />
             <CardContent className={classes.content}>
-                <HorizontalContainer flex="1" alignItems="center">
-                    <Typography
-                        className={classes.name}
-                        variant="h6"
-                        component="h2"
-                    >
-                        {name}
-                    </Typography>
-                    <Typography
-                        className={classes.distance}
-                        color="textSecondary"
-                    >
-                        {distanceString}
-                    </Typography>
-                </HorizontalContainer>
                 <HorizontalContainer>
-                    <Rating
-                        className={classes.rating}
-                        name="rating"
-                        value={rating}
-                        precision={0.5}
-                        size="small"
-                        readOnly
-                    />
-                    <Typography
-                        gutterBottom
-                        variant="body2"
-                        color="textSecondary"
-                    >
-                        {review_count}
-                    </Typography>
+                    <VerticalContainer>
+                        <Typography
+                            className={classes.name}
+                            variant="h6"
+                            component="h2"
+                        >
+                            {name}
+                        </Typography>
+                        <HorizontalContainer>
+                            <Rating
+                                className={classes.rating}
+                                name="rating"
+                                value={rating}
+                                precision={0.5}
+                                size="small"
+                                readOnly
+                            />
+                            <Typography
+                                gutterBottom
+                                variant="body2"
+                                color="textSecondary"
+                            >
+                                {review_count}
+                            </Typography>
+                        </HorizontalContainer>
+                        <Typography variant="body2" color="textSecondary">
+                            {priceString}
+                            {separator}
+                            {categoriesStr}
+                        </Typography>
+                        <div className={classes.locationBottom}>
+                            {location && location.city && (
+                                <Typography
+                                    variant="body2"
+                                    color="textSecondary"
+                                >
+                                    {location.city}
+                                </Typography>
+                            )}
+                            <Typography variant="body2" color="textSecondary">
+                                {distanceString}
+                            </Typography>
+                        </div>
+                    </VerticalContainer>
+
+                    <div className={classes.location}>
+                        {location && location.city && (
+                            <Typography
+                                className={classes.smallText}
+                                color="textSecondary"
+                            >
+                                {location.city}
+                            </Typography>
+                        )}
+                        <Typography
+                            className={classes.smallText}
+                            color="textSecondary"
+                        >
+                            {distanceString}
+                        </Typography>
+                    </div>
                 </HorizontalContainer>
-                <Typography gutterBottom variant="body2" color="textSecondary">
-                    {priceString}
-                    {separator}
-                    {categoriesStr}
-                </Typography>
+
                 <Typography
                     className={classes.review}
                     variant="body2"
