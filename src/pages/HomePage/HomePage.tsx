@@ -1,5 +1,6 @@
 import React, { useReducer } from 'react';
 import { useQuery } from '@apollo/react-hooks';
+import { makeStyles, Theme } from '@material-ui/core/styles';
 import {
     Header,
     HeaderTitle,
@@ -20,7 +21,16 @@ const initialState: SearchState = {
     openNow: false
 };
 
+const useStyles = makeStyles((theme: Theme) => ({
+    total: {
+        backgroundColor: theme.palette.primary.dark,
+        padding: theme.spacing(1),
+        borderRadius: theme.spacing(2)
+    }
+}));
+
 export const HomePage = () => {
+    const classes = useStyles();
     const [state, dispatch] = useReducer(searchReducer, initialState);
     const { term, location, sortBy, categories, price, openNow } = state;
     const { loading, error, data } = useQuery(RESTAURANTS_QUERY, {
@@ -41,11 +51,14 @@ export const HomePage = () => {
         <ViewVerticalContainer>
             <Header>
                 <HeaderTitle>Foodie</HeaderTitle>
+                {data && data.search && (
+                    <div className={classes.total}>{data.search.total}</div>
+                )}
             </Header>
             <SearchBar searchState={state} searchDispatch={dispatch} />
             <VerticalContainer>
                 {loading && <Loading />}
-                {data && data.search && data.search.business && (
+                {!loading && data && data.search && data.search.business && (
                     <RestaurantList restaurants={data.search.business} />
                 )}
             </VerticalContainer>
