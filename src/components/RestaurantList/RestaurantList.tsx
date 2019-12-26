@@ -7,13 +7,20 @@ import {
     RESTAURANTS_QUERY,
     RestaurantQuery_search_business
 } from '../../queries';
+import { SearchState } from '../../reducers';
 
-export const RestaurantList = () => {
+interface RestaurantListProps {
+    searchState: SearchState;
+}
+
+export const RestaurantList = ({ searchState }: RestaurantListProps) => {
+    const { term, location } = searchState;
     const { loading, error, data } = useQuery(RESTAURANTS_QUERY, {
         variables: {
-            term: 'burrito',
-            location: 'san francisco'
-        }
+            term,
+            location
+        },
+        skip: location.length === 0
     });
 
     const handleItemClicked = (itemId: string) => {
@@ -25,16 +32,22 @@ export const RestaurantList = () => {
 
     return (
         <React.Fragment>
-            {data.search.business.map(
-                (business: RestaurantQuery_search_business, index: number) => (
-                    <Box key={business.id || index} p={1}>
-                        <RestaurantCard
-                            business={business}
-                            onItemClicked={handleItemClicked}
-                        />
-                    </Box>
-                )
-            )}
+            {data &&
+                data.search &&
+                data.search.business &&
+                data.search.business.map(
+                    (
+                        business: RestaurantQuery_search_business,
+                        index: number
+                    ) => (
+                        <Box key={business.id || index} p={1}>
+                            <RestaurantCard
+                                business={business}
+                                onItemClicked={handleItemClicked}
+                            />
+                        </Box>
+                    )
+                )}
         </React.Fragment>
     );
 };

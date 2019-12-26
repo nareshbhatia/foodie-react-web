@@ -8,6 +8,9 @@ export const RESTAURANTS_QUERY = gql`
             offset: 0
             limit: 20
             sort_by: "distance"
+            categories: "restaurants"
+            price: "1,2,3"
+            open_now: false
         ) {
             total
             business {
