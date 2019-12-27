@@ -8,16 +8,22 @@ import {
     VerticalContainer,
     ViewVerticalContainer
 } from '@nareshbhatia/react-force';
-import { RestaurantList, SearchBar } from '../../components';
+import { FilterPanel, RestaurantList, SearchBar } from '../../components';
+import { keySetToString } from '../../models';
 import { searchReducer, SearchState } from '../../reducers';
 import { RESTAURANTS_QUERY } from '../../queries';
 
 const initialState: SearchState = {
     term: '',
     location: '',
-    sortBy: 'distance',
+    sortBy: 'best_match',
     categories: 'restaurants',
-    price: '1,2,3',
+    priceFilter: {
+        1: false,
+        2: false,
+        3: false,
+        4: false
+    },
     openNow: false
 };
 
@@ -32,14 +38,14 @@ const useStyles = makeStyles((theme: Theme) => ({
 export const HomePage = () => {
     const classes = useStyles();
     const [state, dispatch] = useReducer(searchReducer, initialState);
-    const { term, location, sortBy, categories, price, openNow } = state;
+    const { term, location, sortBy, categories, priceFilter, openNow } = state;
     const { loading, error, data } = useQuery(RESTAURANTS_QUERY, {
         variables: {
             term,
             location,
             sortBy,
             categories,
-            price,
+            price: keySetToString(priceFilter),
             openNow
         },
         skip: location.length === 0
@@ -56,6 +62,7 @@ export const HomePage = () => {
                 )}
             </Header>
             <SearchBar searchState={state} searchDispatch={dispatch} />
+            <FilterPanel searchState={state} searchDispatch={dispatch} />
             <VerticalContainer>
                 {loading && <Loading />}
                 {!loading && data && data.search && data.search.business && (

@@ -4,6 +4,7 @@ import Divider from '@material-ui/core/Divider';
 import { Form, Formik } from 'formik';
 import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import SearchIcon from '@material-ui/icons/Search';
 import * as yup from 'yup';
 import { SearchAction, SearchState } from '../../reducers';
@@ -12,13 +13,15 @@ import { TextField } from '../Form';
 const useStyles = makeStyles((theme: Theme) => ({
     root: {
         width: '100%',
-        padding: '2px 4px',
+        padding: '2px 8px',
         display: 'flex',
         alignItems: 'center'
     },
     input: {
-        marginLeft: theme.spacing(1),
-        flex: 1
+        flex: 1,
+        '&:not(:first-child)': {
+            marginLeft: '4px'
+        }
     },
     divider: {
         height: 28,
@@ -83,6 +86,15 @@ export const SearchBar = ({ searchState, searchDispatch }: SearchBarProps) => {
                             type="submit"
                         >
                             <SearchIcon />
+                        </IconButton>
+
+                        <Divider
+                            className={classes.divider}
+                            orientation="vertical"
+                        />
+
+                        <IconButton aria-label="expand">
+                            <ExpandMoreIcon />
                         </IconButton>
                     </Paper>
                 </Form>
