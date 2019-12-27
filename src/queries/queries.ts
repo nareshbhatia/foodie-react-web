@@ -5,6 +5,7 @@ export const RESTAURANTS_QUERY = gql`
         $term: String
         $location: String!
         $sortBy: String
+        $attributes: [String]
         $categories: String
         $price: String
         $openNow: Boolean
@@ -12,12 +13,13 @@ export const RESTAURANTS_QUERY = gql`
         search(
             term: $term
             location: $location
-            offset: 0
-            limit: 20
             sort_by: $sortBy
+            attributes: $attributes
             categories: $categories
             price: $price
             open_now: $openNow
+            offset: 0
+            limit: 20
         ) {
             total
             business {

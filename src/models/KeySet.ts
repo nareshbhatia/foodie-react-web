@@ -12,9 +12,12 @@ export const setKeySetKey = (
     return result;
 };
 
-export const keySetToString = (keySet: KeySet): string => {
-    const keys = Object.entries(keySet)
+export const keySetToArray = (keySet: KeySet): Array<string> => {
+    return Object.entries(keySet)
         .filter(e => e[1])
         .map(e => e[0]);
-    return keys.join(',');
+};
+
+export const keySetToString = (keySet: KeySet): string => {
+    return keySetToArray(keySet).join(',');
 };

@@ -13,8 +13,8 @@ import { SearchAction, SearchState } from '../../reducers';
 
 const SortByOptions = [
     { id: 'best_match', name: 'Best Match' },
-    { id: 'rating', name: 'Rating' },
-    { id: 'review_count', name: 'Review Count' },
+    { id: 'rating', name: 'Highest Rated' },
+    { id: 'review_count', name: 'Most Reviewed' },
     { id: 'distance', name: 'Distance' }
 ];
 
@@ -25,6 +25,19 @@ const PriceFilterOptions = [
     { id: '4', name: '$$$$' }
 ];
 
+const CategoryOptions = [
+    { id: 'bars', name: 'Bars' },
+    { id: 'breakfast_brunch', name: 'Breakfast & Brunch' },
+    { id: 'grocery', name: 'Grocery' },
+    { id: 'restaurants', name: 'Restaurants' },
+    { id: 'vegetarian', name: 'Vegetarian' }
+];
+
+const AttributeOptions = [
+    { id: 'hot_and_new', name: 'Hot & New' },
+    { id: 'waitlist_reservation', name: 'Reservations' }
+];
+
 const useStyles = makeStyles((theme: Theme) => ({
     root: {
         width: '100%',
@@ -32,7 +45,6 @@ const useStyles = makeStyles((theme: Theme) => ({
         display: 'flex'
     },
     formControl: {
-        minWidth: 120,
         '&:not(:first-child)': {
             marginLeft: theme.spacing(4)
         }
@@ -49,7 +61,13 @@ export const FilterPanel = ({
     searchDispatch
 }: FilterPanelProps) => {
     const classes = useStyles();
-    const { sortBy, openNow, priceFilter } = searchState;
+    const {
+        sortBy,
+        attributeFilter,
+        categoryFilter,
+        openNow,
+        priceFilter
+    } = searchState;
 
     const handleSortChange = (event: React.ChangeEvent<{ value: unknown }>) => {
         searchDispatch({
@@ -64,6 +82,28 @@ export const FilterPanel = ({
     ) => {
         searchDispatch({
             type: 'SET_PRICE_FILTER',
+            key: event.target.value,
+            value: checked
+        });
+    };
+
+    const handleCategoryChange = (
+        event: React.ChangeEvent<HTMLInputElement>,
+        checked: boolean
+    ) => {
+        searchDispatch({
+            type: 'SET_CATEGORY_FILTER',
+            key: event.target.value,
+            value: checked
+        });
+    };
+
+    const handleAttributeChange = (
+        event: React.ChangeEvent<HTMLInputElement>,
+        checked: boolean
+    ) => {
+        searchDispatch({
+            type: 'SET_ATTRIBUTE_FILTER',
             key: event.target.value,
             value: checked
         });
@@ -114,17 +154,54 @@ export const FilterPanel = ({
             </FormControl>
 
             <FormControl component="fieldset" className={classes.formControl}>
-                <FormControlLabel
-                    control={
-                        <Checkbox
-                            color="primary"
-                            value="openNow"
-                            checked={openNow}
-                            onChange={toggleOpenNow}
+                <FormLabel component="legend">Features</FormLabel>
+                <FormGroup>
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                color="primary"
+                                value="openNow"
+                                checked={openNow}
+                                onChange={toggleOpenNow}
+                            />
+                        }
+                        label="Open Now"
+                    />
+                    {AttributeOptions.map(option => (
+                        <FormControlLabel
+                            key={option.id}
+                            control={
+                                <Checkbox
+                                    color="primary"
+                                    value={option.id}
+                                    checked={attributeFilter[option.id]}
+                                    onChange={handleAttributeChange}
+                                />
+                            }
+                            label={option.name}
                         />
-                    }
-                    label="Open Now"
-                />
+                    ))}
+                </FormGroup>
+            </FormControl>
+
+            <FormControl component="fieldset" className={classes.formControl}>
+                <FormLabel component="legend">Categories</FormLabel>
+                <FormGroup>
+                    {CategoryOptions.map(option => (
+                        <FormControlLabel
+                            key={option.id}
+                            control={
+                                <Checkbox
+                                    color="primary"
+                                    value={option.id}
+                                    checked={categoryFilter[option.id]}
+                                    onChange={handleCategoryChange}
+                                />
+                            }
+                            label={option.name}
+                        />
+                    ))}
+                </FormGroup>
             </FormControl>
         </Paper>
     );

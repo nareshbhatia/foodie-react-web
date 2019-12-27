@@ -95,6 +95,11 @@ export interface RestaurantQuery {
 }
 
 export interface RestaurantQueryVariables {
-    term: string;
+    term?: string | null;
     location: string;
+    sortBy?: string | null;
+    attributes?: (string | null)[] | null;
+    categories?: string | null;
+    price?: string | null;
+    openNow?: boolean | null;
 }

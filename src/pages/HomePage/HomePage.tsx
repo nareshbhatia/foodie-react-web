@@ -9,7 +9,7 @@ import {
     ViewVerticalContainer
 } from '@nareshbhatia/react-force';
 import { FilterPanel, RestaurantList, SearchBar } from '../../components';
-import { keySetToString } from '../../models';
+import { keySetToArray, keySetToString } from '../../models';
 import { searchReducer, SearchState } from '../../reducers';
 import { RESTAURANTS_QUERY } from '../../queries';
 
@@ -17,12 +17,22 @@ const initialState: SearchState = {
     term: '',
     location: '',
     sortBy: 'best_match',
-    categories: 'restaurants',
     priceFilter: {
         1: false,
         2: false,
         3: false,
         4: false
+    },
+    categoryFilter: {
+        bars: false,
+        breakfast_brunch: false,
+        grocery: false,
+        restaurants: false,
+        vegetarian: false
+    },
+    attributeFilter: {
+        hot_and_new: false,
+        waitlist_reservation: false
     },
     openNow: false
 };
@@ -38,14 +48,23 @@ const useStyles = makeStyles((theme: Theme) => ({
 export const HomePage = () => {
     const classes = useStyles();
     const [state, dispatch] = useReducer(searchReducer, initialState);
-    const { term, location, sortBy, categories, priceFilter, openNow } = state;
+    const {
+        term,
+        location,
+        sortBy,
+        categoryFilter,
+        priceFilter,
+        attributeFilter,
+        openNow
+    } = state;
     const { loading, error, data } = useQuery(RESTAURANTS_QUERY, {
         variables: {
             term,
             location,
             sortBy,
-            categories,
             price: keySetToString(priceFilter),
+            categories: keySetToString(categoryFilter),
+            attributes: keySetToArray(attributeFilter),
             openNow
         },
         skip: location.length === 0

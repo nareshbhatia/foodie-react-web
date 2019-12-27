@@ -7,8 +7,9 @@ export interface SearchState {
     term: string;
     location: string;
     sortBy: string;
-    categories: string;
     priceFilter: KeySet;
+    categoryFilter: KeySet;
+    attributeFilter: KeySet;
     openNow: boolean;
 }
 
@@ -32,6 +33,18 @@ export interface SetPriceFilter {
     value: boolean;
 }
 
+export interface SetCategoryFilter {
+    type: 'SET_CATEGORY_FILTER';
+    key: string;
+    value: boolean;
+}
+
+export interface SetAttributeFilter {
+    type: 'SET_ATTRIBUTE_FILTER';
+    key: string;
+    value: boolean;
+}
+
 export interface ToggleOpenNow {
     type: 'TOGGLE_OPEN_NOW';
 }
@@ -40,6 +53,8 @@ export type SearchAction =
     | SetSearchState
     | SetSortBy
     | SetPriceFilter
+    | SetCategoryFilter
+    | SetAttributeFilter
     | ToggleOpenNow;
 
 // ----------------------------------------------------------------------------
@@ -58,6 +73,24 @@ export const searchReducer = (state: SearchState, action: SearchAction) => {
                 ...state,
                 priceFilter: setKeySetKey(
                     state.priceFilter,
+                    action.key,
+                    action.value
+                )
+            };
+        case 'SET_CATEGORY_FILTER':
+            return {
+                ...state,
+                categoryFilter: setKeySetKey(
+                    state.categoryFilter,
+                    action.key,
+                    action.value
+                )
+            };
+        case 'SET_ATTRIBUTE_FILTER':
+            return {
+                ...state,
+                attributeFilter: setKeySetKey(
+                    state.attributeFilter,
                     action.key,
                     action.value
                 )
