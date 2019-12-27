@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useState } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import {
@@ -47,6 +47,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 export const HomePage = () => {
     const classes = useStyles();
+    const [filterVisible, setFilterVisible] = useState(false);
     const [state, dispatch] = useReducer(searchReducer, initialState);
     const {
         term,
@@ -70,6 +71,10 @@ export const HomePage = () => {
         skip: location.length === 0
     });
 
+    const toggleFilter = () => {
+        setFilterVisible(!filterVisible);
+    };
+
     if (error) throw error;
 
     return (
@@ -80,8 +85,17 @@ export const HomePage = () => {
                     <div className={classes.total}>{data.search.total}</div>
                 )}
             </Header>
-            <SearchBar searchState={state} searchDispatch={dispatch} />
-            <FilterPanel searchState={state} searchDispatch={dispatch} />
+
+            <SearchBar
+                searchState={state}
+                searchDispatch={dispatch}
+                filterVisible={filterVisible}
+                toggleFilter={toggleFilter}
+            />
+            {filterVisible && (
+                <FilterPanel searchState={state} searchDispatch={dispatch} />
+            )}
+
             <VerticalContainer>
                 {loading && <Loading />}
                 {!loading && data && data.search && data.search.business && (

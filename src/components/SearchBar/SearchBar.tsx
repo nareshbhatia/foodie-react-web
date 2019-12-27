@@ -4,6 +4,7 @@ import Divider from '@material-ui/core/Divider';
 import { Form, Formik } from 'formik';
 import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
+import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import SearchIcon from '@material-ui/icons/Search';
 import * as yup from 'yup';
@@ -32,9 +33,16 @@ const useStyles = makeStyles((theme: Theme) => ({
 interface SearchBarProps {
     searchState: SearchState;
     searchDispatch: React.Dispatch<SearchAction>;
+    filterVisible: boolean;
+    toggleFilter: () => void;
 }
 
-export const SearchBar = ({ searchState, searchDispatch }: SearchBarProps) => {
+export const SearchBar = ({
+    searchState,
+    searchDispatch,
+    filterVisible,
+    toggleFilter
+}: SearchBarProps) => {
     const classes = useStyles();
     const validationSchema = yup.object().shape({
         location: yup.string().required()
@@ -93,8 +101,9 @@ export const SearchBar = ({ searchState, searchDispatch }: SearchBarProps) => {
                             orientation="vertical"
                         />
 
-                        <IconButton aria-label="expand">
-                            <ExpandMoreIcon />
+                        <IconButton aria-label="expand" onClick={toggleFilter}>
+                            {filterVisible && <ExpandLessIcon />}
+                            {!filterVisible && <ExpandMoreIcon />}
                         </IconButton>
                     </Paper>
                 </Form>
