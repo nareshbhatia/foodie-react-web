@@ -10,7 +10,7 @@ import {
 import Rating from '@material-ui/lab/Rating';
 import numeral from 'numeral';
 import { RootStoreContext } from '../../contexts';
-import { RestaurantQuery_search_business } from '../../queries';
+import { BusinessSearchQuery_search_business } from '../../queries';
 
 const METER_TO_FEET = 3.28084;
 const METER_TO_MILES = 0.000621371;
@@ -68,15 +68,15 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
 }));
 
-interface RestaurantCardProps {
-    restaurant: RestaurantQuery_search_business;
+interface BusinessCardProps {
+    business: BusinessSearchQuery_search_business;
     onItemClicked: (itemId: string) => void;
 }
 
-export const RestaurantCard = ({
-    restaurant,
+export const BusinessCard = ({
+    business,
     onItemClicked
-}: RestaurantCardProps) => {
+}: BusinessCardProps) => {
     const classes = useStyles();
     const rootStore = useContext(RootStoreContext);
     const { routerStore } = rootStore;
@@ -92,7 +92,7 @@ export const RestaurantCard = ({
         rating,
         review_count,
         reviews
-    } = restaurant;
+    } = business;
     if (!id || !name) {
         return null;
     }

@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
-export const RESTAURANTS_QUERY = gql`
-    query RestaurantQuery(
+export const BUSINESS_SEARCH_QUERY = gql`
+    query BusinessSearchQuery(
         $term: String
         $location: String!
         $sortBy: String

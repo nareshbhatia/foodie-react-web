@@ -11,12 +11,12 @@ import {
 import {
     FilterPanel,
     HomeButton,
-    RestaurantList,
+    BusinessList,
     SearchBar
 } from '../../components';
 import { keySetToArray, keySetToString } from '../../models';
 import { searchReducer, SearchState } from '../../reducers';
-import { RESTAURANTS_QUERY } from '../../queries';
+import { BUSINESS_SEARCH_QUERY } from '../../queries';
 
 const initialState: SearchState = {
     term: '',
@@ -32,7 +32,7 @@ const initialState: SearchState = {
         bars: false,
         breakfast_brunch: false,
         grocery: false,
-        restaurants: false,
+        businesses: false,
         vegetarian: false
     },
     attributeFilter: {
@@ -63,20 +63,23 @@ export const HomePage = () => {
         attributeFilter,
         openNow
     } = state;
-    const { loading, error, data, fetchMore } = useQuery(RESTAURANTS_QUERY, {
-        variables: {
-            term,
-            location,
-            sortBy,
-            price: keySetToString(priceFilter),
-            categories: keySetToString(categoryFilter),
-            attributes: keySetToArray(attributeFilter),
-            openNow,
-            offset: 0,
-            limit: 20
-        },
-        skip: location.length === 0
-    });
+    const { loading, error, data, fetchMore } = useQuery(
+        BUSINESS_SEARCH_QUERY,
+        {
+            variables: {
+                term,
+                location,
+                sortBy,
+                price: keySetToString(priceFilter),
+                categories: keySetToString(categoryFilter),
+                attributes: keySetToArray(attributeFilter),
+                openNow,
+                offset: 0,
+                limit: 20
+            },
+            skip: location.length === 0
+        }
+    );
 
     const toggleFilter = () => {
         setFilterVisible(!filterVisible);
@@ -105,7 +108,7 @@ export const HomePage = () => {
     if (error) throw error;
 
     const total = data && data.search && data.search.total;
-    const restaurants = (data && data.search && data.search.business) || [];
+    const businesses = (data && data.search && data.search.business) || [];
 
     return (
         <ViewVerticalContainer>
@@ -130,9 +133,9 @@ export const HomePage = () => {
             <VerticalContainer>
                 {loading && <Loading />}
                 {!loading && (
-                    <RestaurantList
+                    <BusinessList
                         total={total}
-                        restaurants={restaurants}
+                        businesses={businesses}
                         loadMoreItems={loadMoreItems}
                     />
                 )}

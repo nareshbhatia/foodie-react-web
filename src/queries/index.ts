@@ -1,2 +1,2 @@
 export * from './queries';
-export * from './__generated__/RestaurantQuery';
+export * from './__generated__/BusinessSearchQuery';

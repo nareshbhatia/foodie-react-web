@@ -3,10 +3,10 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: RestaurantQuery
+// GraphQL query operation: BusinessSearchQuery
 // ====================================================
 
-export interface RestaurantQuery_search_business_categories {
+export interface BusinessSearchQuery_search_business_categories {
     __typename: 'Category';
     /**
      * Title of a category for display purposes.
@@ -14,7 +14,7 @@ export interface RestaurantQuery_search_business_categories {
     title: string | null;
 }
 
-export interface RestaurantQuery_search_business_location {
+export interface BusinessSearchQuery_search_business_location {
     __typename: 'Location';
     /**
      * City of this business.
@@ -22,7 +22,7 @@ export interface RestaurantQuery_search_business_location {
     city: string | null;
 }
 
-export interface RestaurantQuery_search_business_reviews {
+export interface BusinessSearchQuery_search_business_reviews {
     __typename: 'Review';
     /**
      * Text excerpt of this review.
@@ -30,7 +30,7 @@ export interface RestaurantQuery_search_business_reviews {
     text: string | null;
 }
 
-export interface RestaurantQuery_search_business {
+export interface BusinessSearchQuery_search_business {
     __typename: 'Business';
     /**
      * Yelp ID of this business.
@@ -43,7 +43,9 @@ export interface RestaurantQuery_search_business {
     /**
      * A list of category title and alias pairs associated with this business.
      */
-    categories: (RestaurantQuery_search_business_categories | null)[] | null;
+    categories:
+        | (BusinessSearchQuery_search_business_categories | null)[]
+        | null;
     /**
      * When searching, this provides the distance of the business from the search location in meters
      */
@@ -51,7 +53,7 @@ export interface RestaurantQuery_search_business {
     /**
      * The location of this business, including address, city, state, postal code and country.
      */
-    location: RestaurantQuery_search_business_location | null;
+    location: BusinessSearchQuery_search_business_location | null;
     /**
      * URLs of up to three photos of the business.
      */
@@ -72,10 +74,10 @@ export interface RestaurantQuery_search_business {
     /**
      * Review snippets from the business.
      */
-    reviews: (RestaurantQuery_search_business_reviews | null)[] | null;
+    reviews: (BusinessSearchQuery_search_business_reviews | null)[] | null;
 }
 
-export interface RestaurantQuery_search {
+export interface BusinessSearchQuery_search {
     __typename: 'Businesses';
     /**
      * Total number of businesses found.
@@ -84,17 +86,17 @@ export interface RestaurantQuery_search {
     /**
      * A list of business Yelp finds based on the search criteria.
      */
-    business: (RestaurantQuery_search_business | null)[] | null;
+    business: (BusinessSearchQuery_search_business | null)[] | null;
 }
 
-export interface RestaurantQuery {
+export interface BusinessSearchQuery {
     /**
      * Search for businesses on Yelp.
      */
-    search: RestaurantQuery_search | null;
+    search: BusinessSearchQuery_search | null;
 }
 
-export interface RestaurantQueryVariables {
+export interface BusinessSearchQueryVariables {
     term?: string | null;
     location: string;
     sortBy?: string | null;
@@ -102,4 +104,6 @@ export interface RestaurantQueryVariables {
     categories?: string | null;
     price?: string | null;
     openNow?: boolean | null;
+    offset?: number | null;
+    limit?: number | null;
 }
