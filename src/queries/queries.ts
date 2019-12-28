@@ -9,6 +9,8 @@ export const RESTAURANTS_QUERY = gql`
         $categories: String
         $price: String
         $openNow: Boolean
+        $offset: Int
+        $limit: Int
     ) {
         search(
             term: $term
@@ -18,8 +20,8 @@ export const RESTAURANTS_QUERY = gql`
             categories: $categories
             price: $price
             open_now: $openNow
-            offset: 0
-            limit: 20
+            offset: $offset
+            limit: $limit
         ) {
             total
             business {

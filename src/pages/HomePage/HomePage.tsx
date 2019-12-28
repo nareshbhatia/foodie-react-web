@@ -58,7 +58,7 @@ export const HomePage = () => {
         attributeFilter,
         openNow
     } = state;
-    const { loading, error, data } = useQuery(RESTAURANTS_QUERY, {
+    const { loading, error, data, fetchMore } = useQuery(RESTAURANTS_QUERY, {
         variables: {
             term,
             location,
@@ -66,7 +66,9 @@ export const HomePage = () => {
             price: keySetToString(priceFilter),
             categories: keySetToString(categoryFilter),
             attributes: keySetToArray(attributeFilter),
-            openNow
+            openNow,
+            offset: 0,
+            limit: 20
         },
         skip: location.length === 0
     });
@@ -75,14 +77,37 @@ export const HomePage = () => {
         setFilterVisible(!filterVisible);
     };
 
+    const loadMoreItems = async (startIndex: number) => {
+        await fetchMore({
+            variables: {
+                offset: startIndex
+            },
+            updateQuery: (prev, { fetchMoreResult }) => {
+                if (!fetchMoreResult) return prev;
+                return Object.assign({}, prev, {
+                    search: {
+                        ...prev.search,
+                        business: [
+                            ...prev.search.business,
+                            ...fetchMoreResult.search.business
+                        ]
+                    }
+                });
+            }
+        });
+    };
+
     if (error) throw error;
+
+    const total = data && data.search && data.search.total;
+    const restaurants = (data && data.search && data.search.business) || [];
 
     return (
         <ViewVerticalContainer>
             <Header>
                 <HeaderTitle>Foodie</HeaderTitle>
                 {data && data.search && (
-                    <div className={classes.total}>{data.search.total}</div>
+                    <div className={classes.total}>{total}</div>
                 )}
             </Header>
 
@@ -98,8 +123,12 @@ export const HomePage = () => {
 
             <VerticalContainer>
                 {loading && <Loading />}
-                {!loading && data && data.search && data.search.business && (
-                    <RestaurantList restaurants={data.search.business} />
+                {!loading && (
+                    <RestaurantList
+                        total={total}
+                        restaurants={restaurants}
+                        loadMoreItems={loadMoreItems}
+                    />
                 )}
             </VerticalContainer>
         </ViewVerticalContainer>

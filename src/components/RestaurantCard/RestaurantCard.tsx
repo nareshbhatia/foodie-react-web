@@ -17,7 +17,8 @@ const METER_TO_MILES = 0.000621371;
 const useStyles = makeStyles((theme: Theme) => ({
     card: {
         display: 'flex',
-        height: 150
+        height: 150,
+        cursor: 'pointer'
     },
     content: {
         flex: 1,

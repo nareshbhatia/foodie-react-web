@@ -28,7 +28,8 @@ export const App: React.FC = () => {
 
     const client = new ApolloClient({
         link: authLink.concat(httpLink),
-        cache: new InMemoryCache()
+        cache: new InMemoryCache({ freezeResults: true }),
+        assumeImmutableResults: true
     });
 
     return (

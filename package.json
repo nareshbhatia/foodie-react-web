@@ -37,6 +37,10 @@
     "numeral": "^2.0.6",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
+    "react-infinite-scroll-component": "^5.0.4",
+    "react-virtualized-auto-sizer": "^1.0.2",
+    "react-window": "^1.8.5",
+    "react-window-infinite-loader": "^1.0.5",
     "yup": "^0.28.0"
   },
   "devDependencies": {
@@ -49,6 +53,10 @@
     "@types/numeral": "^0.0.26",
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
+    "@types/react-infinite-scroll-component": "^4.2.5",
+    "@types/react-virtualized-auto-sizer": "^1.0.0",
+    "@types/react-window": "^1.8.1",
+    "@types/react-window-infinite-loader": "^1.0.2",
     "@types/yup": "^0.26.27",
     "apollo": "^2.21.2",
     "husky": "^3.1.0",
