@@ -45,3 +45,46 @@ export const BUSINESS_SEARCH_QUERY = gql`
         }
     }
 `;
+
+export const BUSINESS_QUERY = gql`
+    query BusinessQuery($id: String!) {
+        business(id: $id) {
+            name
+            display_phone
+            categories {
+                title
+            }
+            location {
+                address1
+                address2
+                address3
+                city
+                state
+                postal_code
+                country
+            }
+            hours {
+                hours_type
+                open {
+                    day
+                    start
+                    end
+                }
+            }
+            photos
+            price
+            rating
+            review_count
+            reviews {
+                id
+                text
+                rating
+                time_created
+                user {
+                    name
+                    image_url
+                }
+            }
+        }
+    }
+`;
