@@ -8,8 +8,13 @@ import { ApolloClient } from 'apollo-client';
 import { setContext } from 'apollo-link-context';
 import { createHttpLink } from 'apollo-link-http';
 import { theme } from './components';
+import { RootStoreContext } from './contexts';
+import { initApp } from './init';
+import { Router } from './Router';
 import { EnvService } from './services';
-import { HomePage } from './pages';
+
+// Initialize the app
+const rootStore = initApp();
 
 export const App: React.FC = () => {
     const httpLink = createHttpLink({
@@ -38,7 +43,9 @@ export const App: React.FC = () => {
                 <ApolloProvider client={client}>
                     <ThemeProvider theme={theme}>
                         <CssBaseline />
-                        <HomePage />
+                        <RootStoreContext.Provider value={rootStore}>
+                            <Router />
+                        </RootStoreContext.Provider>
                     </ThemeProvider>
                 </ApolloProvider>
             </Suspense>

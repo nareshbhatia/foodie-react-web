@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Card from '@material-ui/core/Card';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -9,6 +9,7 @@ import {
 } from '@nareshbhatia/react-force';
 import Rating from '@material-ui/lab/Rating';
 import numeral from 'numeral';
+import { RootStoreContext } from '../../contexts';
 import { RestaurantQuery_search_business } from '../../queries';
 
 const METER_TO_FEET = 3.28084;
@@ -77,6 +78,9 @@ export const RestaurantCard = ({
     onItemClicked
 }: RestaurantCardProps) => {
     const classes = useStyles();
+    const rootStore = useContext(RootStoreContext);
+    const { routerStore } = rootStore;
+
     const {
         id,
         name,
@@ -123,7 +127,7 @@ export const RestaurantCard = ({
     const review = reviews && reviews[0] ? reviews[0].text : '';
 
     const handleClick = () => {
-        onItemClicked(id);
+        routerStore.goTo('business', { id });
     };
 
     // Don't use CardMedia - it forces 100% width

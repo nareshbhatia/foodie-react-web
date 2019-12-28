@@ -8,7 +8,12 @@ import {
     VerticalContainer,
     ViewVerticalContainer
 } from '@nareshbhatia/react-force';
-import { FilterPanel, RestaurantList, SearchBar } from '../../components';
+import {
+    FilterPanel,
+    HomeButton,
+    RestaurantList,
+    SearchBar
+} from '../../components';
 import { keySetToArray, keySetToString } from '../../models';
 import { searchReducer, SearchState } from '../../reducers';
 import { RESTAURANTS_QUERY } from '../../queries';
@@ -105,6 +110,7 @@ export const HomePage = () => {
     return (
         <ViewVerticalContainer>
             <Header>
+                <HomeButton />
                 <HeaderTitle>Foodie</HeaderTitle>
                 {data && data.search && (
                     <div className={classes.total}>{total}</div>
