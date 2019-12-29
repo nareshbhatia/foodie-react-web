@@ -13,43 +13,15 @@ import {
 import { BackButton } from '../../components/Header';
 import { RootStoreContext } from '../../contexts';
 import { BUSINESS_QUERY, BusinessQuery_business } from '../../queries';
-import { BusinessDetailCard, ReviewCard } from '../../components';
-
-const day2str = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+import {
+    BusinessDetailCard,
+    BusinessHours,
+    ReviewCard
+} from '../../components';
 
 const useStyles = makeStyles((theme: Theme) => ({
-    card: {
-        display: 'flex',
-        height: 150
-    },
-    content: {
-        flex: 1,
-        padding: '0 16px',
-        '&:last-child': {
-            paddingBottom: 0
-        }
-    },
-    smallText: {
-        fontSize: '0.75rem'
-    },
     subtitle: {
         fontWeight: theme.typography.fontWeightMedium
-    },
-    img: {
-        width: 150,
-        height: 150,
-        minWidth: 150,
-        minHeight: 150,
-        objectFit: 'cover'
-    },
-    name: {
-        flex: 1
-    },
-    rating: {
-        marginRight: theme.spacing(1)
-    },
-    review: {
-        marginTop: '6px'
     }
 }));
 
@@ -73,33 +45,7 @@ export const BusinessPage = () => {
     const business: BusinessQuery_business = data && data.business;
     if (!business) return null;
 
-    const { hours, reviews } = business;
-
-    // Create hour table
-    let hoursTable = '';
-
-    if (hours) {
-        hours.forEach(hour => {
-            if (hour && hour.open) {
-                hour.open.forEach(open => {
-                    if (open) {
-                        const { day, start, end } = open;
-                        hoursTable += `
-<tr>
-  <td>${day !== null ? day2str[day] : ''}</td>
-  <td>${start}</td>
-  <td>${end}</td>
-</tr>
-`;
-                    }
-                });
-            }
-        });
-    }
-
-    if (hoursTable.length > 0) {
-        hoursTable = `<table>${hoursTable}</table>`;
-    }
+    const { reviews } = business;
 
     return (
         <ViewVerticalContainer>
@@ -111,18 +57,7 @@ export const BusinessPage = () => {
             <ScrollingContainer p={2}>
                 <BusinessDetailCard business={business} />
 
-                {hoursTable && (
-                    <Box mt={2}>
-                        <Typography
-                            variant="subtitle1"
-                            component="h2"
-                            className={classes.subtitle}
-                        >
-                            Hours
-                        </Typography>
-                        <Box dangerouslySetInnerHTML={{ __html: hoursTable }} />
-                    </Box>
-                )}
+                {business.hours && <BusinessHours hours={business.hours} />}
 
                 {reviews && reviews.length > 0 && (
                     <Box mt={2}>

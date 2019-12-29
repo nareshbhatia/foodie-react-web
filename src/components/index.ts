@@ -4,6 +4,7 @@ export * from './Header';
 export * from './LoadingCard';
 export * from './BusinessCard';
 export * from './BusinessDetailCard';
+export * from './BusinessHours';
 export * from './BusinessList';
 export * from './ReviewCard';
 export * from './ScrollContainer';

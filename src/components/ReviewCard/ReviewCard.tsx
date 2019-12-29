@@ -4,6 +4,7 @@ import CardContent from '@material-ui/core/CardContent';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Rating from '@material-ui/lab/Rating';
+import moment from 'moment';
 import { BusinessQuery_business_reviews } from '../../queries';
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -42,6 +43,10 @@ export const ReviewCard = ({ review }: ReviewCardProps) => {
 
     const { text, rating, time_created, user } = review;
 
+    const timeString = time_created
+        ? moment(time_created).format('MMM D, YYYY')
+        : '';
+
     return (
         <Card className={classes.card}>
             {user && user.image_url && (
@@ -70,7 +75,7 @@ export const ReviewCard = ({ review }: ReviewCardProps) => {
                     readOnly
                 />
                 <Typography variant="body2" color="textSecondary" gutterBottom>
-                    {time_created}
+                    {timeString}
                 </Typography>
                 <Typography variant="body2" color="textSecondary">
                     {text}
