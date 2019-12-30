@@ -1,11 +1,15 @@
 # Foodie - React Web
 
 Foodie is a demo application for finding restaurants using Yelp's GraphQL API.
-We have built it on several tech stacks in order to compare and contract
+We have built it on several tech stacks in order to compare and contrast
 technologies. This one is built on:
 
 -   React
 -   Material-UI
+-   React Apollo Client
+
+You can try out the live version
+[here](https://foodie-react-web.firebaseapp.com/).
 
 ![Screen Shot](assets/screenshot.png)
 
