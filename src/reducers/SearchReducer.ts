@@ -1,4 +1,5 @@
 import { KeySet, setKeySetKey } from '../models';
+import React from 'react';
 
 // ----------------------------------------------------------------------------
 // State
@@ -12,6 +13,30 @@ export interface SearchState {
     attributeFilter: KeySet;
     openNow: boolean;
 }
+
+export const INITIAL_SEARCH_STATE: SearchState = {
+    term: '',
+    location: '',
+    sortBy: 'best_match',
+    priceFilter: {
+        1: false,
+        2: false,
+        3: false,
+        4: false
+    },
+    categoryFilter: {
+        bars: false,
+        breakfast_brunch: false,
+        grocery: false,
+        businesses: false,
+        vegetarian: false
+    },
+    attributeFilter: {
+        hot_and_new: false,
+        waitlist_reservation: false
+    },
+    openNow: false
+};
 
 // ----------------------------------------------------------------------------
 // Actions
@@ -101,3 +126,19 @@ export const searchReducer = (state: SearchState, action: SearchAction) => {
             throw new Error('Unexpected action');
     }
 };
+
+// ----------------------------------------------------------------------------
+// SearchContext
+// ----------------------------------------------------------------------------
+export interface SearchContextProps {
+    state: SearchState;
+    dispatch: React.Dispatch<SearchAction>;
+}
+
+export const SearchContext = React.createContext<SearchContextProps>({
+    state: INITIAL_SEARCH_STATE,
+    dispatch: () => {
+        /* istanbul ignore next */
+        return;
+    }
+});

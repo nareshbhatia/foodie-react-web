@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import {
@@ -15,32 +15,8 @@ import {
     SearchBar
 } from '../../components';
 import { keySetToArray, keySetToString } from '../../models';
-import { searchReducer, SearchState } from '../../reducers';
+import { SearchContext } from '../../reducers';
 import { BUSINESS_SEARCH_QUERY } from '../../queries';
-
-const initialState: SearchState = {
-    term: '',
-    location: '',
-    sortBy: 'best_match',
-    priceFilter: {
-        1: false,
-        2: false,
-        3: false,
-        4: false
-    },
-    categoryFilter: {
-        bars: false,
-        breakfast_brunch: false,
-        grocery: false,
-        businesses: false,
-        vegetarian: false
-    },
-    attributeFilter: {
-        hot_and_new: false,
-        waitlist_reservation: false
-    },
-    openNow: false
-};
 
 const useStyles = makeStyles((theme: Theme) => ({
     total: {
@@ -52,8 +28,9 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 export const HomePage = () => {
     const classes = useStyles();
+    const { state, dispatch } = useContext(SearchContext);
+
     const [filterVisible, setFilterVisible] = useState(false);
-    const [state, dispatch] = useReducer(searchReducer, initialState);
     const {
         term,
         location,

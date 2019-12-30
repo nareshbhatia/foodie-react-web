@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useReducer } from 'react';
 import { ApolloProvider } from '@apollo/react-hooks';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { ThemeProvider } from '@material-ui/core/styles';
@@ -10,6 +10,7 @@ import { createHttpLink } from 'apollo-link-http';
 import { theme } from './components';
 import { RootStoreContext } from './contexts';
 import { initApp } from './init';
+import { INITIAL_SEARCH_STATE, SearchContext, searchReducer } from './reducers';
 import { Router } from './Router';
 import { EnvService } from './services';
 
@@ -37,16 +38,22 @@ export const App: React.FC = () => {
         assumeImmutableResults: true
     });
 
+    // Keep searchReducer at the app level so that search parameters
+    // are preserved across page navigation
+    const [state, dispatch] = useReducer(searchReducer, INITIAL_SEARCH_STATE);
+
     return (
         <ErrorBoundary>
             <Suspense fallback={<Loading />}>
                 <ApolloProvider client={client}>
-                    <ThemeProvider theme={theme}>
-                        <CssBaseline />
-                        <RootStoreContext.Provider value={rootStore}>
-                            <Router />
-                        </RootStoreContext.Provider>
-                    </ThemeProvider>
+                    <SearchContext.Provider value={{ state, dispatch }}>
+                        <ThemeProvider theme={theme}>
+                            <CssBaseline />
+                            <RootStoreContext.Provider value={rootStore}>
+                                <Router />
+                            </RootStoreContext.Provider>
+                        </ThemeProvider>
+                    </SearchContext.Provider>
                 </ApolloProvider>
             </Suspense>
         </ErrorBoundary>
